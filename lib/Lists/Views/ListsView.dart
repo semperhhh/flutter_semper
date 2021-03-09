@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_semper/Lists/Models/ListsModel.dart';
+import 'package:flutter_semper/Post/PostViewController.dart';
 import 'package:flutter_semper/Tools/ColorUtil.dart';
 
 class ListsView extends StatelessWidget {
@@ -15,18 +16,24 @@ class ListsView extends StatelessWidget {
       List l = <Widget>[];
       for (var i = 0; i < list.length; i++) {
         Widget t = Container(
+          height: 20,
           padding: EdgeInsets.only(left: 4, right: 4),
           decoration: BoxDecoration(
             color: ColorUtil.fromHex("#28a745"),
             borderRadius: BorderRadius.circular(4),
           ),
-          child: Text(
-            "${list[i]}",
-            style: TextStyle(
-                // backgroundColor: ColorUtil.fromHex("#28a745"),
-                color: Colors.white,
-                fontWeight: FontWeight.w900,
-                fontSize: 13),
+          child: Wrap(
+            runAlignment: WrapAlignment.center,
+            children: [
+              Text(
+                "${list[i]}",
+                style: TextStyle(
+                    // backgroundColor: ColorUtil.fromHex("#28a745"),
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 13),
+              )
+            ],
           ),
         );
         l.add(t);
@@ -40,10 +47,17 @@ class ListsView extends StatelessWidget {
             color: ColorUtil.fromHex("#17a2b8"),
             borderRadius: BorderRadius.circular(4),
           ),
-          child: Text(
-            this.model.category,
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w900, fontSize: 13),
+          child: Wrap(
+            runAlignment: WrapAlignment.center,
+            children: [
+              Text(
+                this.model.category,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 13),
+              )
+            ],
           ),
         ),
       );
@@ -79,7 +93,7 @@ class ListsView extends StatelessWidget {
 
     Widget _gesture = GestureDetector(
       onTap: () {
-        print("点击");
+        itemDidSelect(context);
       },
       child: ConstrainedBox(
         constraints: BoxConstraints(minHeight: 120),
@@ -110,5 +124,9 @@ class ListsView extends StatelessWidget {
       color: ColorUtil.grey,
       child: _gesture,
     );
+  }
+
+  void itemDidSelect(BuildContext context) {
+    Navigator.of(context).pushNamed("post", arguments: this.model.title);
   }
 }
